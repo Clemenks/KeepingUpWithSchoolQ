@@ -3,4 +3,10 @@
     <string name="KeepingUpWithSchool">Keeping Up With School</string>
     <string name="KeepingUpWithSchool">Keeping Up With School</string>
     <string name="ClassName">Class Name</string>
+    <string name="ClassName">Class Name</string>
+    <string name="ImgName">Image Name</string>
+    <string name="hintImgName">Image Name</string>
+    <string name="FolderButt">Folder Button</string>
+    <string name="PhotoButt">Photo Button</string>
+    <string name="SaveButt">Save Button</string>
 </resources>
