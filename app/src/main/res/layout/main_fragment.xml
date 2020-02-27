@@ -67,6 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/smpType">
 
         <ImageButton
@@ -87,7 +89,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgPhotoView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/imageViewDesc"

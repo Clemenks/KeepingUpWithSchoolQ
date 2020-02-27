@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainActivity : AppCompatActivity() {
 
-    val CAMERA_REQUEST_CODE = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,28 +24,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
-        btnTakePic.setOnClickListener {
-            //Defines the Camera Application
-            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if(callCameraIntent.resolveActivity(packageManager) != null){
-                startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
-            }
-        }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        when(requestCode){
-            CAMERA_REQUEST_CODE-> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    imageView.setImageBitmap(data.extras.get("data") as Bitmap)
-                }
-            }
-            else ->{
-                Toast.makeText(this, "Unreconized request code", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
 }
