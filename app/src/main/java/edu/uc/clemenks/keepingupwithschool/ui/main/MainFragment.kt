@@ -22,6 +22,7 @@ class MainFragment : Fragment() {
 
     val CAMERA_PERMISSION_REQUEST_CODE = 1999
     val CAMERA_REQUEST_CODE = 1998
+
     companion object {
         fun newInstance() = MainFragment()
     }
@@ -71,6 +72,7 @@ class MainFragment : Fragment() {
         }
     }
 
+    //Takes the photo
     private fun takePhoto() {
        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
            takePictureIntent -> takePictureIntent.resolveActivity(context!!.packageManager)?.also {
@@ -79,6 +81,7 @@ class MainFragment : Fragment() {
        }
     }
 
+    //Puts the Photo on the Image View
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
