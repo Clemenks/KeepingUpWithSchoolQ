@@ -40,15 +40,15 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
        btnTakePic.setOnClickListener{
-           prepTakePhoto()
+           checkCameraPermission()
        }
     }
     //See if we have permission or not
-    private fun prepTakePhoto() {
+    private fun checkCameraPermission() {
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             takePhoto()
         }else{
-            val permissionRequest = arrayOf(Manifest.permission.CAMERA)
+            var permissionRequest = arrayOf(Manifest.permission.CAMERA)
             requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE)
         }
 
@@ -77,7 +77,7 @@ class MainFragment : Fragment() {
        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
            takePictureIntent -> takePictureIntent.resolveActivity(context!!.packageManager)?.also {
            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
-       }
+            }
        }
     }
 
@@ -87,7 +87,7 @@ class MainFragment : Fragment() {
         if(resultCode == RESULT_OK){
             if(requestCode == CAMERA_REQUEST_CODE){
                 //now we can get the thumbnail
-                val imageBitmap = data!!.extras!!.get("data") as Bitmap
+                var imageBitmap = data!!.extras!!.get("data") as Bitmap
                 imgPhotoView.setImageBitmap(imageBitmap)
             }
         }
