@@ -23,10 +23,6 @@ class MainFragment : Fragment() {
     private val CAMERA_PERMISSION_REQUEST_CODE = 1999
     private val CAMERA_REQUEST_CODE = 1998
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
@@ -93,4 +89,7 @@ class MainFragment : Fragment() {
         }
     }
 
+    companion object {
+        fun newInstance() = MainFragment()
+    }
 }
