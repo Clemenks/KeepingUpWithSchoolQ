@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
-    val CAMERA_PERMISSION_REQUEST_CODE = 1999
-    val CAMERA_REQUEST_CODE = 1998
+    private val CAMERA_PERMISSION_REQUEST_CODE = 1999
+    private val CAMERA_REQUEST_CODE = 1998
 
     companion object {
         fun newInstance() = MainFragment()
@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ) : View {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
@@ -47,7 +47,7 @@ class MainFragment : Fragment() {
     private fun prepTakePhoto() {
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             takePhoto()
-        }else{
+        } else {
             val permissionRequest = arrayOf(Manifest.permission.CAMERA)
             requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE)
         }
@@ -65,7 +65,7 @@ class MainFragment : Fragment() {
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     //permission granted, lets do stuff
                     takePhoto()
-                }else{
+                } else {
                     Toast.makeText(context, "Unable to take photo without permission", Toast.LENGTH_LONG).show()
                 }
             }
