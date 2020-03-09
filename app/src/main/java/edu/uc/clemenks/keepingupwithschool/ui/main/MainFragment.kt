@@ -54,6 +54,7 @@ class MainFragment : Fragment() {
 
     }
 
+    //Checks permission request for access to camera
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -62,7 +63,8 @@ class MainFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             CAMERA_PERMISSION_REQUEST_CODE -> {
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //Checks if array has the correct code
+                if(grantResults.contains(PackageManager.PERMISSION_GRANTED)){
                     //permission granted, lets do stuff
                     takePhoto()
                 }else{
