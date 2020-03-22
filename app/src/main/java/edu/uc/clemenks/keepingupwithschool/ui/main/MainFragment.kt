@@ -20,12 +20,9 @@ import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
-    val CAMERA_PERMISSION_REQUEST_CODE = 1999
-    val CAMERA_REQUEST_CODE = 1998
+    val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
+    val CAMERA_REQUEST_CODE: Int = 1998
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
 
     private lateinit var viewModel: MainViewModel
 
@@ -93,6 +90,9 @@ class MainFragment : Fragment() {
                 imgPhotoView.setImageBitmap(imageBitmap)
             }
         }
+    }
+    companion object {
+        fun newInstance() = MainFragment()
     }
 
 }
