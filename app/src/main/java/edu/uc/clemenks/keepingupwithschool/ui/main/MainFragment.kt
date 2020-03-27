@@ -15,16 +15,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import edu.uc.clemenks.keepingupwithschool.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
-    val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
-    val CAMERA_REQUEST_CODE: Int = 1998
+    private val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
+    private val CAMERA_REQUEST_CODE: Int = 1998
+    private val LOCATION_PERMISSION_REQUEST_CODE = 2000
+
 
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +44,28 @@ class MainFragment : Fragment() {
        btnTakePic.setOnClickListener{
            prepTakePhoto()
        }
+        prepRequestLocationUpdates()
     }
-    //See if we have permission or not
+
+    //See if we have permission to get location
+    private fun prepRequestLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            requestLocationUpdates()
+        } else {
+            val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+            requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    private fun requestLocationUpdates() {
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        locationViewModel.getLocationLiveData().observe(viewLifecycleOwner, Observer {
+            lblLatitudeValue.text = it.latitude
+            lblLongitudeValue.text = it.longitude
+        })
+    }
+
+    //See if we have permission to take photo
     private fun prepTakePhoto() {
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             takePhoto()
@@ -51,7 +76,7 @@ class MainFragment : Fragment() {
 
     }
 
-    //Checks permission request for access to camera
+    //Checks permission request for access to camera or Location
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -66,6 +91,13 @@ class MainFragment : Fragment() {
                     takePhoto()
                 }else{
                     Toast.makeText(context, "Unable to take photo without permission", Toast.LENGTH_LONG).show()
+                }
+            }
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    requestLocationUpdates()
+                } else {
+                    Toast.makeText(context, "Unable to update location without permission", Toast.LENGTH_LONG).show()
                 }
             }
         }
