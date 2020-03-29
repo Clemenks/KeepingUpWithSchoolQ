@@ -2,12 +2,15 @@ package edu.uc.clemenks.keepingupwithschool.ui.main
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.os.Binder
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Build
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.uc.clemenks.keepingupwithschool.R
@@ -44,7 +48,13 @@ class MainFragment : Fragment() {
        btnTakePic.setOnClickListener{
            prepTakePhoto()
        }
+
+       btnSave.setOnClickListener{
+           saveImageToInternalStorage(imgPhotoView.drawToBitmap() as Bitmap)
+           Toast.makeText(context, "Photo Saved", Toast.LENGTH_LONG).show()
+       }
         prepRequestLocationUpdates()
+
     }
 
     //See if we have permission to get location
@@ -117,6 +127,7 @@ class MainFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
             if(requestCode == CAMERA_REQUEST_CODE){
+
                 //now we can get the thumbnail
                 val imageBitmap = data!!.extras!!.get("data") as Bitmap
                 imgPhotoView.setImageBitmap(imageBitmap)
@@ -126,5 +137,25 @@ class MainFragment : Fragment() {
     companion object {
         fun newInstance() = MainFragment()
     }
+
+    // Method to save an image to internal storage
+    private fun saveImageToInternalStorage(imageBitmap: Bitmap): Uri {
+
+        var contentResolver = this.context?.contentResolver
+
+        // Save image to gallery
+        val savedImageURL = MediaStore.Images.Media.insertImage(
+            contentResolver,
+            imageBitmap,
+            txtImgName.text.toString(),
+            "Image"
+        )
+
+        // Parse the gallery image url to uri
+        return Uri.parse(savedImageURL)
+    }
+
+
+
 
 }
