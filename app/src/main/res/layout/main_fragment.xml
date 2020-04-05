@@ -52,8 +52,8 @@
 
     <ImageButton
         android:id="@+id/btnFolder"
-        android:layout_width="47dp"
-        android:layout_height="40dp"
+        android:layout_width="66dp"
+        android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/FolderButt"
@@ -73,16 +73,16 @@
 
         <ImageButton
             android:id="@+id/btnTakePic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="149dp"
+            android:layout_height="64dp"
             android:layout_weight="1"
             android:contentDescription="@string/PhotoButt"
             android:src="@drawable/ic_photo" />
 
         <ImageButton
             android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="137dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/SaveButt"
             android:src="@drawable/ic_save" />
