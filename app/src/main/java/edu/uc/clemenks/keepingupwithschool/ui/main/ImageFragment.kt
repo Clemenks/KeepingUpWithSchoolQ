@@ -2,15 +2,12 @@ package edu.uc.clemenks.keepingupwithschool.ui.main
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Build
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,11 +17,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import edu.uc.clemenks.keepingupwithschool.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : Fragment() {
+class ImageFragment : Fragment() {
 
     private val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
     private val CAMERA_REQUEST_CODE: Int = 1998
@@ -135,7 +131,7 @@ class MainFragment : Fragment() {
         }
     }
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = ImageFragment()
     }
 
     // Method to save an image to internal storage
