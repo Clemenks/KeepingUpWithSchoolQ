@@ -58,7 +58,7 @@ class MainFragment : Fragment() {
        }
         prepRequestLocationUpdates()
 
-        btnGetImage.setOnClickListener {
+        btnFolder.setOnClickListener {
             prepOpenImageGallery()
         }
 
