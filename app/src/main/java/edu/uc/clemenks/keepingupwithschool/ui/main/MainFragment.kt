@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
+<<<<<<< HEAD
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -25,6 +26,9 @@ import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.storage.FirebaseStorage
+=======
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import edu.uc.clemenks.keepingupwithschool.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -33,6 +37,7 @@ class PhotoToBeSaved(val course: String, val imageName: String, var imageRefURI:
 
 class MainFragment : Fragment() {
 
+<<<<<<< HEAD
     private val AUTH_REQUEST_CODE = 2002
     private val CAMERA_PERMISSION_REQUEST_CODE = 1999
     private val CAMERA_REQUEST_CODE = 1998
@@ -40,16 +45,19 @@ class MainFragment : Fragment() {
     private var firestore = FirebaseFirestore.getInstance()
     private var storageReference = FirebaseStorage.getInstance().getReference()
     private var user : FirebaseUser? = null
+    private val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
+    private val CAMERA_REQUEST_CODE: Int = 1998
+    private val LOCATION_PERMISSION_REQUEST_CODE = 2000
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
+
 
 
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
     }
+    private lateinit var viewModel: MainViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +80,26 @@ class MainFragment : Fragment() {
         btnLogon.setOnClickListener {
             logon()
         }
+        prepRequestLocationUpdates()
 
+    }
+
+    //See if we have permission to get location
+    private fun prepRequestLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            requestLocationUpdates()
+        } else {
+            val permissionRequest = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+            requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    private fun requestLocationUpdates() {
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        locationViewModel.getLocationLiveData().observe(viewLifecycleOwner, Observer {
+            lblLatitudeValue.text = it.latitude
+            lblLongitudeValue.text = it.longitude
+        })
     }
 
     private fun logon() {
@@ -95,6 +122,7 @@ class MainFragment : Fragment() {
     }
 
     //Checks permission request for access to camera
+    //Checks permission request for access to camera or Location
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -109,6 +137,13 @@ class MainFragment : Fragment() {
                     takePhoto()
                 }else{
                     Toast.makeText(context, "Unable to take photo without permission", Toast.LENGTH_LONG).show()
+                }
+            }
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    requestLocationUpdates()
+                } else {
+                    Toast.makeText(context, "Unable to update location without permission", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -137,6 +172,9 @@ class MainFragment : Fragment() {
                 user = FirebaseAuth.getInstance().currentUser
             }
         }
+    }
+    companion object {
+        fun newInstance() = MainFragment()
     }
 
     // Method to save an image to internal storage

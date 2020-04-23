@@ -8,4 +8,7 @@
     <string name="PhotoButt">Photo Button</string>
     <string name="SaveButt">Save Button</string>
     <string name="imageViewDesc">View for displaying image</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="zeropointzero">0.0</string>
 </resources>
