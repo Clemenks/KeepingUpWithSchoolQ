@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage
 =======
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+>>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 import edu.uc.clemenks.keepingupwithschool.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -45,19 +46,24 @@ class MainFragment : Fragment() {
     private var firestore = FirebaseFirestore.getInstance()
     private var storageReference = FirebaseStorage.getInstance().getReference()
     private var user : FirebaseUser? = null
+=======
     private val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
     private val CAMERA_REQUEST_CODE: Int = 1998
     private val LOCATION_PERMISSION_REQUEST_CODE = 2000
 
+>>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 
 
+<<<<<<< HEAD
 
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
     }
+=======
     private lateinit var viewModel: MainViewModel
     private lateinit var locationViewModel: LocationViewModel
+>>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,14 +78,17 @@ class MainFragment : Fragment() {
        btnTakePic.setOnClickListener{
            prepTakePhoto()
        }
+
        btnSave.setOnClickListener{
            var URI = saveImageToInternalStorage(imgPhotoView.drawToBitmap() as Bitmap)
            saveImageToFireStore(URI.toString())
            Toast.makeText(context, "Photo Saved", Toast.LENGTH_LONG).show()
        }
+<<<<<<< HEAD
         btnLogon.setOnClickListener {
             logon()
         }
+=======
         prepRequestLocationUpdates()
 
     }
@@ -93,6 +102,7 @@ class MainFragment : Fragment() {
             requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
+>>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 
     private fun requestLocationUpdates() {
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
@@ -102,6 +112,7 @@ class MainFragment : Fragment() {
         })
     }
 
+<<<<<<< HEAD
     private fun logon() {
         var providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
         startActivityForResult(
@@ -111,6 +122,9 @@ class MainFragment : Fragment() {
     }
 
     //See if we have permission or not
+=======
+    //See if we have permission to take photo
+>>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
     private fun prepTakePhoto() {
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             takePhoto()
@@ -121,7 +135,6 @@ class MainFragment : Fragment() {
 
     }
 
-    //Checks permission request for access to camera
     //Checks permission request for access to camera or Location
     override fun onRequestPermissionsResult(
         requestCode: Int,
