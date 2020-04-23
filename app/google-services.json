@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1007345209980",
+    "firebase_url": "https://keepingupwithschool-fb8fd.firebaseio.com",
+    "project_id": "keepingupwithschool-fb8fd",
+    "storage_bucket": "keepingupwithschool-fb8fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007345209980:android:4ed1fb279654e430802ff9",
+        "android_client_info": {
+          "package_name": "edu.uc.clemenks.keepingupwithschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007345209980-257h2p7ijklbqqn76d8g1daur4tm7m88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVtH3sLnbAFvid5vg3WHP8jACzM_UHlLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1007345209980-257h2p7ijklbqqn76d8g1daur4tm7m88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
