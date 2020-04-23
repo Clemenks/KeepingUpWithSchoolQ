@@ -6,6 +6,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -15,10 +16,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
-<<<<<<< HEAD
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,10 +27,8 @@ import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.storage.FirebaseStorage
-=======
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
->>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 import edu.uc.clemenks.keepingupwithschool.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -38,7 +37,6 @@ class PhotoToBeSaved(val course: String, val imageName: String, var imageRefURI:
 
 class MainFragment : Fragment() {
 
-<<<<<<< HEAD
     private val AUTH_REQUEST_CODE = 2002
     private val CAMERA_PERMISSION_REQUEST_CODE = 1999
     private val CAMERA_REQUEST_CODE = 1998
@@ -46,24 +44,14 @@ class MainFragment : Fragment() {
     private var firestore = FirebaseFirestore.getInstance()
     private var storageReference = FirebaseStorage.getInstance().getReference()
     private var user : FirebaseUser? = null
-=======
-    private val CAMERA_PERMISSION_REQUEST_CODE: Int = 1999
-    private val CAMERA_REQUEST_CODE: Int = 1998
     private val LOCATION_PERMISSION_REQUEST_CODE = 2000
-
->>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
-
-
-<<<<<<< HEAD
-
-
+    private val IMAGE_GALLERY_REQUEST_CODE: Int = 2001
+  
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
     }
-=======
     private lateinit var viewModel: MainViewModel
     private lateinit var locationViewModel: LocationViewModel
->>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,13 +72,23 @@ class MainFragment : Fragment() {
            saveImageToFireStore(URI.toString())
            Toast.makeText(context, "Photo Saved", Toast.LENGTH_LONG).show()
        }
-<<<<<<< HEAD
         btnLogon.setOnClickListener {
             logon()
         }
-=======
+      
         prepRequestLocationUpdates()
 
+        btnFolder.setOnClickListener {
+            prepOpenImageGallery()
+        }
+
+    }
+
+    private fun prepOpenImageGallery() {
+        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+            type = "image/*"
+            startActivityForResult(this, IMAGE_GALLERY_REQUEST_CODE)
+        }
     }
 
     //See if we have permission to get location
@@ -102,7 +100,6 @@ class MainFragment : Fragment() {
             requestPermissions(permissionRequest, LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
->>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
 
     private fun requestLocationUpdates() {
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
@@ -112,7 +109,6 @@ class MainFragment : Fragment() {
         })
     }
 
-<<<<<<< HEAD
     private fun logon() {
         var providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
         startActivityForResult(
@@ -121,10 +117,7 @@ class MainFragment : Fragment() {
         )
     }
 
-    //See if we have permission or not
-=======
     //See if we have permission to take photo
->>>>>>> 193344e66447ba4ac6ad4fd81d631ca774a59405
     private fun prepTakePhoto() {
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
             takePhoto()
@@ -175,11 +168,18 @@ class MainFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            if(requestCode == CAMERA_REQUEST_CODE){
+            if(requestCode == CAMERA_REQUEST_CODE) {
 
                 //now we can get the thumbnail
                 val imageBitmap = data!!.extras!!.get("data") as Bitmap
                 imgPhotoView.setImageBitmap(imageBitmap)
+            } else if (requestCode == IMAGE_GALLERY_REQUEST_CODE) {
+                if (data!= null && data.data != null) {
+                    val image = data.data
+                    val source = ImageDecoder.createSource(activity!!.contentResolver, image!!)
+                    val bitmap = ImageDecoder.decodeBitmap(source)
+                    imgPhotoView.setImageBitmap(bitmap)
+                }
             }
             else if(requestCode == AUTH_REQUEST_CODE){
                 user = FirebaseAuth.getInstance().currentUser
